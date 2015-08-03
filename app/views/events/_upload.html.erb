@@ -1,0 +1,24 @@
+<div id="fileQueue"></div>
+<input type="file" name="fileInput" id="fileInput" />
+<%- session_key_name = ActionController::Base.session_options[:key] %>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#fileInput').uploadify({
+    'uploader' : '/uploadify.swf',
+    'script' : '/event_photos',
+    'cancelImg' : '/cancel.png',
+    'buttonText': '+',
+    'auto' : true,
+    'multi':true,
+    'fileDataName' : 'event_photo[image]',
+    'expressInstall': '/expressInstall.swf',
+    'scriptData': {
+      'authenticity_token'  :   '<%= u form_authenticity_token  if protect_against_forgery? %>',              
+      '<%= session_key_name %>' : '<%= u cookies[session_key_name] %>',
+      'event_photo[user_id]' :'<%= current_user.id %>',
+      'event_photo[photo_category_id]': '<%= @photo_category.id %>',
+      'event_photo[event_id]': '<%= @event.id %>'
+    }
+  });
+});
+</script>

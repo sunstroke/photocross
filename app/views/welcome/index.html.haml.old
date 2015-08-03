@@ -1,0 +1,81 @@
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat; padding-left: 10px;", :bgcolor=>"#fe8917",:width => "177px", :valign => "top" }
+    &nbsp;
+    %br
+    %br
+    %br
+    = render :partial => "events/notes"
+      
+%div{:style => "width: 96%; margin: 10px 10px ;", :valign => "top"}
+  - @pervaya.each do |pervaya|
+    #content
+      #b
+        #t
+          #tl
+        #l
+          #r
+            #inf
+              #event_title
+                %H2            
+                  = pervaya.title
+              #date
+                = pervaya.date &&  Russian::strftime(pervaya.date,"%d %B %Y")
+              #event_info{:style=>" display:inline-block;width: 100%;"}
+                %span{:style =>"margin-left: 20px; margin-top:10px; "}
+                  = simple_format pervaya.resume
+              #manage{:style=>"float: right;"}
+                - if current_user && current_user.is_admin?
+                  = link_to "Редактировать", edit_admin_article_path(pervaya)
+        #br
+          #bl
+  - @events.each do |event|
+    #content
+      #b
+        #t
+          #tl
+        #l
+          #r
+            #inf
+              #event_title
+                %H2
+                  = link_to event.title, event
+              #date
+                = event_date(event)
+              %br                
+              = render :partial =>"events/infotabs", :locals=>{:event=>event}
+              -# = event_date(event)
+              #event_info{:id => event.id, :style=>" display:inline-block;width: 100%;"}
+                = render :partial =>"events/body", :locals => {:event => event}
+                %span.tag
+                  Теги:
+                  = raw(event.tag_list.map{|tag| link_to tag, events_path(:tag => tag) }.join(", "))
+              #manage{:style=>"float: right;"}
+                - if current_user && current_user.is_admin?
+                  = link_to "Редактировать", edit_admin_event_path(event)
+                = link_to "Комментариев "+event.comments.count.to_s, event_path(event)+"#comments"
+        #br
+          #bl
+    %br
+  - @articles.each do |article|
+    #content
+      #b
+        #t
+          #tl
+        #l
+          #r
+            #inf
+              #event_title
+                %H2            
+                  = link_to article.title, article
+              #date
+                = article.date && Russian::strftime(article.date,"%d %B %Y")
+              #event_info
+                %span{:style =>"margin-left: 20px; margin-top:10px; display:inline-block;width: 100%;"}
+                  = simple_format article.resume
+              #manage{:style=>"float: right;"}
+                - if current_user && current_user.is_admin?
+                  = link_to "Редактировать", edit_admin_article_path(article)
+        #br
+          #bl
+  - if @articles
+    = link_to "Все статьи" , articles_path

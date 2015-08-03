@@ -1,0 +1,32 @@
+%table{:border => "1"}
+  %caption= error_messages_for 'team'
+  %tr
+    %td
+      = f.hidden_field :event_id
+      = f.text_field :title, :label => "Название"
+    %td
+      = f.text_field :number, :label => "Номер"
+    %td
+      = f.text_field :place, :label => "Место"
+    %td
+      = f.text_field :captain_login, :label => "Логин капитана, если зарегистрирован"
+  %tr
+    %td
+      = f.text_field :phone, :label => "Телефон"
+    %td
+      = f.text_field :penalty, :label => "Пенальти"
+    %td
+      = f.text_field :result, :label => "Результат в баллах"
+    %td
+      = f.text_field :status, :label => "Статус"
+  %tr
+    %td
+      = f.label :starttime
+      = time_select("team", "starttime") 
+    %td
+      = f.label :finishtime
+      = time_select("team", "finishtime") 
+    %td
+      = f.submit "Сохранить"
+
+  

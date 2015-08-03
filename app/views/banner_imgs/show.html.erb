@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Img:</b>
+  <%= @banner_img.img %>
+</p>
+
+<p>
+  <b>Left:</b>
+  <%= @banner_img.left %>
+</p>
+
+<p>
+  <b>Top:</b>
+  <%= @banner_img.top %>
+</p>
+
+<p>
+  <b>Sp:</b>
+  <%= @banner_img.sp %>
+</p>
+
+<p>
+  <b>Z:</b>
+  <%= @banner_img.z %>
+</p>
+
+<p>
+  <b>Banner:</b>
+  <%= @banner_img.banner_id %>
+</p>
+
+<p>
+  <b>Pos:</b>
+  <%= @banner_img.pos %>
+</p>
+
+
+<%= link_to 'Edit', edit_banner_img_path(@banner_img) %> |
+<%= link_to 'Back', banner_imgs_path %>

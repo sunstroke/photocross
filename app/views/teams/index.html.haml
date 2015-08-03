@@ -1,0 +1,55 @@
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r
+        #inf
+          #event_title
+            %H1
+              = link_to @event.title, @event
+          #date
+            = event_date(@event)
+          %br          
+          = render :partial =>"events/infotabs", :locals=>{:event=>@event}          
+          %br      
+          #inf
+            %a{:onclick => "$('.team_title, .team_number').toggle(); return false;"} Показать/скрыть номера и названия команд
+            %a{:onclick => "$('.task_title, .task_number').toggle(); return false;"} Показать/скрыть номера и названия заданий
+            %table{ :border => "0", :style => "width: 80%; " }
+              %caption
+                %h2== #{@event.title}. Фотографии команд.
+              %thead
+                %tr
+                  %colgroup{ :style => "background-color:#c6f4fb", :width => "6%" }
+                    %td{:align=>"center",:style => "background-color: white"} Название/номер задания
+                  - @event.tasks_with_numbers.each do |task|
+                    %td{:align=>"center",:style => "background-color: #ded;"}
+                      .task_title= link_to task.title,event_task_path(@event, task.number)
+                      .task_number{:style => "display: none"}= link_to task.number,event_task_path(@event, task.number)
+              %tbody
+                - @event.teams.each do |team|
+                  -if !team.photos.empty?
+                    %tr
+                      %td
+                        .team_number{:style => "display: none"}= link_to team.number, team
+                        .team_title= link_to team.number.to_s+" "+team.title, team
+                      - @event.tasks_with_numbers.each do |task|
+                        %td{:id => "photo_block_#{team.id}_#{task.number}"}
+                          - photo = team.photo_for_task(task)
+                          - if photo
+                            = render :partial => "admin/events/photo", :object => photo
+                            #control-block
+            %a{:onclick => "$('.team_title, .team_number').toggle(); return false;"} Показать/скрыть номера и названия команд
+            %a{:onclick => "$('.task_title, .task_number').toggle(); return false;"} Показать/скрыть номера и названия заданий
+            
+
+    #br
+      #bl
+      - content_for :news do
+        %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+          &nbsp;
+          %br
+          %br
+          %br       
+

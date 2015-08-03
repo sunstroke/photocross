@@ -1,0 +1,40 @@
+%h2== РЕДАКТИРОВАНИЕ СПИСКА КОМАНД #{@event.title}
+%p Список команд формируется автоматически, в результате заявок команд
+%table{ :cellspacing => "2", :border => "2", :style => "width: 60%" }
+  %caption
+  %tbody
+    %tr
+      %td
+        %table{ :border => "1", :align => "center", :style => "width: 80%" }
+          %caption
+            СПИСОК КОМАНД, ПОДАВШИХ
+            ЗАЯВКИ
+          %tbody
+            %tr
+              %td{ :style => " width: 20%;background-color:#a4ffff" }
+                \&lt;team_num&gt;
+              %td{ :style => " width: 40%;background-color:#a4ffff" }
+                \&lt;team_name&gt;
+              %td{ :style => "background-color:#a4ffff" }
+                \&lt;team_crew&gt;
+              %td{ :style => "background-color:#a4ffff" }
+                \&lt;phone&gt;              
+              %td{ :style => "background-color:#a4ffff" }
+                status
+              %td{ :style => "background-color:#a4ffff" }
+                action
+            - @teams.each do |team|
+              %tr
+                %td= team.number
+                %td= h team.title
+                %td= team.users.map {|user| link_to user.login, user}.join(", ")
+                %td= team.phone
+                %td= team.status
+                %td
+                  = link_to "edit", edit_admin_event_team_path(@event, team)
+                  = button_to "Удалить", admin_event_team_path(@event, team), :method => :delete, :confirm => "Точно удалить команду?"
+%p=link_to "ДОБАВИТЬ КОМАНДЫ (Регистрация на месте старта)", new_admin_event_team_path(@event)
+
+- form_for @event, :html => {:multipart => true} do |e|
+  = e.file_field :upload_csv, :label => "CSV с результатами"
+  = e.submit "Сохранить"

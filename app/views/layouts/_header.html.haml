@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title= content_for?(:title) ? yield(:title) : "Фотокросс"
+    = csrf_meta_tag    
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %link{:href => "http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic", :rel => "stylesheet", :type => "text/css"}/    
+    -# %link{:href => "css/bootstrap.css", :rel => "stylesheet"}/
+      %link{:href => "css/theme.css", :rel => "stylesheet", :type => "text/css"}/
+      %link{:href => "css/index.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}/
+
+      %link{:href => "css/lib/animate.css", :media => "screen, projection", :rel => "stylesheet", :type => "text/css"}/
+    / Le HTML5 shim, for IE6-8 support of HTML elements    
+    /[if lt IE 9]
+      = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+    = stylesheet_link_tag "application", :media => "all"      
+    = stylesheet_link_tag "bootstrap"   
+    = stylesheet_link_tag "theme" 
+    =yield :head  
+
+    = stylesheet_link_tag "animate"   
+    =render "layouts/metrika"
+    %link(href="images/apple-touch-icon-144x144.png" rel="apple-touch-icon-precomposed" sizes="144x144")
+    %link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114")
+    %link(href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72")
+    %link(href="images/apple-touch-icon.png" rel="apple-touch-icon-precomposed")
+    %link(href="favicon.ico" rel="shortcut icon")

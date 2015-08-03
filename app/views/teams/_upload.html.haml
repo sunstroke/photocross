@@ -1,0 +1,8 @@
+-# if @team.card&&@team.card.activated
+- form_for(@photo, :html => {:multipart => true}) do |f|
+  = f.error_messages
+  = f.file_field :image, :label => "Фото"
+  = f.hidden_field :team_id 
+  = f.hidden_field :event_id
+  = f.select :task_id, @event.tasks.map {|t| ["#{t.number } #{t.title}", t.id]}, :label => "Задание"
+  = f.submit "Загрузить"

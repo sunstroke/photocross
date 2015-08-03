@@ -1,0 +1,60 @@
+!!!
+%html{ :xmlns => "http://www.w3.org/1999/xhtml" }
+  %head
+    %meta{ :content => "text/html; charset=UTF-8", "http-equiv" => "content-type" }
+    %title Admin
+    = javascript_include_tag "jquery.NobleCount.min","jquery-1.4.2","jquery.mousewheel-3.0.2.pack", "jquery.rest_in_place.js", "jquery-ui", "jrails", "swfupload", "cookie", "application", "jquery.fancybox-1.3.1.pack"
+    :javascript
+      rails_authenticity_token = '#{form_authenticity_token}'; 
+    = stylesheet_link_tag "application", "main", "jquery.fancybox-1.3.1"
+    = yield :js  
+    = yield(:head)
+  %body{ :marginheight => "0", :marginwidth => "0" }
+    #panel
+      = render :partial => "layouts/login"    
+      = link_to "АДМИНИСТРИРОВАНИЕ", admin_path
+    #page
+      %table{ :cellspacing => "0", :border => "0", :width => "100%", :cellpadding => "0" }
+        %tr
+          %td{ :background => "/left1.jpg",:style=>"background-repeat:no-repeat;",:bgcolor=>"#ff6600", :height => "768px", :valign => "top", :width => "230px", :align => "right"}
+            %div#left{:style => "margin-right : 10px; width : 220px;"}
+              %br
+              %br
+              = link_to image_tag ("/cross.png", :height => "26", :alt => "логотип фотокросс", :border => "0",:width => "210" ), root_path
+              %br
+              %br              
+              #menu
+                %ul
+                  %li
+                    = link_to_unless_current "ГЛАВНАЯ", root_path
+                  %li
+                    = link_to_unless_current "СОБЫТИЯ", events_path
+                  %li
+                    %a{ :href => "#" } УЧАСТНИКИ
+                  %li
+                    = link_to_unless_current "ФОТОГРАФИИ", gallery_path
+
+                  %li
+                    = link_to "ОРГАНИЗАТОРЫ", page_path("contacts")
+                  %li
+                    = link_to "ПАРТНЁРЫ", page_path("partners")     
+                  %li                
+                    - if current_user && current_user.is_admin?
+                      = link_to "admin", admin_path
+                = render :partial => "layouts/header"
+                %br                      
+                %ul
+                  %li
+                    = link_to "Что такое фотокросс", page_path("about")
+                  %li
+                    = link_to "Корпоративные фотокроссы", page_path("corporate")
+                  %li
+                    = link_to "Регионы", page_path("regions")
+          %td{:valign => "top"}
+            #main
+              - if flash[:notice]
+                = flash[:notice]
+              = yield
+          =yield :news
+      #footer
+        = render :partial => "layouts/footer"

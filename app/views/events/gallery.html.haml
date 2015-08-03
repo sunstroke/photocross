@@ -1,0 +1,41 @@
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r
+        #inf
+          %table{ :border => "0", :width => "100%" }
+            %tbody
+              %tr
+                %td{ :colspan => "2" }
+                  #path
+                    = link_to "ФОТОКРОСС", root_path
+                    ○
+                    = link_to_unless_current "ГАЛЕРЕЯ", gallery_path
+                    == ○ &lt;#{@year}&gt;
+              %tr
+                %td{ :height => "236", :valign => "middle", :align => "center"}
+                  %table{ :border => "0"}
+                    %tbody
+                      - @events.in_groups_of(3, false) do |group|
+                        %tr
+                          - group.each do |event|
+                            %td{:style => "height: 100%"}
+                              #img_gallery{:style => "clear: both;"}= link_to image_tag(event.image.url(:thumb)), event_teams_path(event)
+                              %br
+                              #date_gallery{:style => "clear: both;"}== #{event.handled_at && Russian::strftime(event.handled_at,"%d %m %Y")}, #{event.title}
+                  %p
+                  %p= will_paginate(@events)
+    #br
+      #bl
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "187px", :valign => "top" }
+    &nbsp;
+    %br
+    %br
+    %br
+    %p
+      - @years.each do |year|
+        = link_to_unless_current "#{year}", gallery_path(year)
+        %br

@@ -1,0 +1,163 @@
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+    &nbsp;
+    %br
+    %br
+    %br       
+- content_for :head do
+  -if @event.image?
+    %link{:rel=>"image_src",:href=>@event.image.url(:medium) }
+  
+
+
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r  
+        #inf
+          #event_title
+            %H1
+              = link_to @event.title, @event
+          %div{:style=>"float:right; width: 250px; text-align: center;"}
+            = image_tag(@event.image.url(:medium) )if @event.image?    
+          #date
+            = event_date(@event)
+          %br        
+          = render :partial =>"events/infotabs", :locals=>{:event=>@event}
+          #path
+            = link_to "ФОТОКРОСС", root_path
+            = '->'
+            = link_to_unless_current "СОБЫТИЯ", events_path
+            = '->'
+            = h @event.title
+            -# = event_date(@event)
+          -# notes
+            = render :partial => "notes"
+          #event_body
+            - if params[:tab] == "teams"
+              = render :partial => "teams/teams"
+            - elsif params[:tab] == "event_photos"
+              = render :partial => "events/user_photos"
+            - else  
+              %p= simple_format @event.body
+              - if !@event.prizes.blank?
+                %br
+                #prize.box{:style=>"clear:both;display: block;"}
+                  %hr
+                  %h2
+                    Призы
+                  - @event.prizes.each do |p|
+                    - if p.image?
+                      %div{:style=>"height:100px;width:100px; float:left;display:block;"}                      
+                        = image_tag p.image.url(:thumb), :alt=>p.description&&p.description,:title=>p.description&&p.description
+                    - else
+                      %div                                        
+                        = p.name if p.name                     
+                    -#%ul.column
+                      %li= p.name if p.name 
+                      %li= image_tag p.image.url(:medium), :alt=>p.description,:style=>"display: block;" if p.image?              
+              
+              - if !@event.partners.blank?
+                %br{:style=>"clear:both;width:100%;"}
+                #partners.box
+                  %hr
+                  %h2            
+                    Партнеры
+                  - @event.partners.each do |p|
+                    %div{:style=>"height:100px;width:100px; float:left;"}                      
+                      =image_tag p.image.url(:thumb),:alt=>p.name&&p.name,:title=>p.name&&p.name if p.image?
+                    -#%ul.column
+                      %li{:style=>"clear: both;"}= image_tag p.image.url(:thumb) if p.image?              
+          #event_game
+            = render :partial=>"layouts/like"
+            %br
+            - if flash[:notice]
+              = flash[:notice]
+            - if @team
+              = link_to "Мое участие", :controller => "teams", :action => "profile", :id => @team.id
+            - elsif @event.is_registration_opened?
+              #my_event
+                - if current_user
+                  = link_to "ХОЧУ В ЭТОМ УЧАСТВОВАТЬ!", new_event_team_path(@event)
+                -# else
+                  = link_to "Зарегистрироваться для участия", new_user_path
+                  - form_tag :user_session, :url => sessions_path, :method => :post do |f|
+                    Войти:
+                    %br
+                    = f.text_field :login
+                    %br
+                    = f.password_field :password
+                    %br
+                    = f.submit t("user.login")
+            - if !@event.starts.blank?            
+              %hr
+              #start.box
+                %h2
+                  Старт
+                - @event.starts.each do |p|
+                  %div
+                    = image_tag p.image.url, :style=>"clear:both; float: none;" if p.image?
+                    %br
+                    = p.name if p.name
+                    %br
+                    = p.description if p.description
+            - if !@event.finishes.blank?
+              %hr
+              #finish.box
+                %h2
+                  Финиш
+                - @event.finishes.each do |p|
+                  %ul.column
+                    %li= image_tag p.image.url if p.image?                  
+                    %li= p.name if p.name  
+                    %li= p.description if p.description
+            %br        
+            - if !@event.pressrelises.blank?
+              %hr
+              #press_release.box
+                %h2
+                  Пресс-Релиз
+                - @event.pressrelises.each do |pressrelise|
+                  %ul.column
+                    %li= pressrelise.name if pressrelise.name
+                    %li= pressrelise.description if pressrelise.description
+                    %li= image_tag pressrelise.relise.url if pressrelise.relise?                                
+            - if !@event.smis.blank?
+              #about_event_writes.box
+                %hr
+                %h2            
+                  О нас пишут
+                - @event.smis.each do |p|
+                  %ul.column
+                    %li= p.name if p.name                                        
+            #event_else_info
+              %hr
+              Теги:
+              %span.tag
+                = @event.tag_list.map {|tag| link_to tag, events_path(:tag => tag) }.join(", ")
+          %br
+          - if @event.comment_allowed?            
+            #comments{:style=>"clear: both;"}
+              %hr            
+              %h2
+                Комментарии              
+              = will_paginate @comments
+              = "Обсуждение ("+@event.comments.count.to_s+" комментариев): "
+              - if current_user
+                = render :partial => "comments/form"
+              - else
+                Для того, чтобы оставлять комментарии, необходимо 
+                = link_to "зарегистрироваться", new_user_path
+              = render :partial => "comments/comment", :collection => @comments
+              - if current_user
+                = render :partial => "comments/form"
+              - else
+                Для того, чтобы оставлять комментарии, необходимо 
+                = link_to "зарегистрироваться", new_user_path
+              = will_paginate @comments
+    - if current_user && current_user.is_admin?
+      = link_to "Редактировать", edit_admin_event_path(@event)
+    #br
+      #bl

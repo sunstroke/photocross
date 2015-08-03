@@ -1,0 +1,17 @@
+%h1 КОМАНДЫ
+%table{ :border => "1"}
+  %thead
+    %tr
+      %td Номер команды
+      %td Название
+      %td Состав
+      %td Место
+  %tbody
+    - @event.teams.placed.each do |team|
+      -# if team.finishtime
+      %tr
+        %td= link_to team.number, team
+        %td= link_to team.title, team
+        -#%td= team.users.map {|user| link_to user.login, user}.join(", ")
+        %td= team.sostav
+        %td= team.place

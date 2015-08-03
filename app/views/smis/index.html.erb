@@ -1,0 +1,24 @@
+<h1>Listing smis</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Event</th>
+    <th>Description</th>
+  </tr>
+
+<% @smis.each do |smi| %>
+  <tr>
+    <td><%=h smi.name %></td>
+    <td><%=h smi.event_id %></td>
+    <td><%=h smi.description %></td>
+    <td><%= link_to 'Show', smi %></td>
+    <td><%= link_to 'Edit', edit_smi_path(smi) %></td>
+    <td><%= link_to 'Destroy', smi, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New smi', new_smi_path %>

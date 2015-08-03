@@ -1,0 +1,34 @@
+%h2 АДМИНИСТРИРОВАНИЕ СОБЫТИЙ
+
+%table{ :border => "0", :style => "width: 80%" }
+  %tbody
+    %tr
+      %td{ :width => "70%" }
+        %table{ :border => "1", :style => "width: 100%" }
+          %tbody
+            %tr{ :bgcolor => "grey" }
+              %td{ :width => "5%" } номер события
+              %td{ :width => "40%" } название события
+              %td{ :width => "10%" } дата события
+              %td{ :width => "15%" } тип события
+              %td страница события
+              %td удалить
+            - @events.each do |event|
+              %tr
+                %td= event.id
+                %td= link_to event.title, edit_admin_event_path(event)
+                %td= event_date event
+                %td event_type
+                %td= link_to "страница события", event
+                %td= button_to "удалить", admin_event_path(event), :method => :delete, :confirm => "Действительно удалить?"
+        = form_for @event, :method => :post do |f|
+          = f.date_select :handled_at, :label => "Дата проведения нового события"
+          = f.date_select :finishing_at, :label => "Дата финала нового события "
+          = f.text_field :title
+          = f.submit "СОЗДАТЬ СОБЫТИЕ"
+        %p
+        %p
+          (здесь потом можно будет добавить
+          навигационных кнопок, для ускорения
+          поиска нужного события)
+        %p

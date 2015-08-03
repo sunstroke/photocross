@@ -1,0 +1,13 @@
+- content_for :js do
+  = render :partial => "notes/counter"
+  = javascript_include_tag "jquery.NobleCount.min"
+%h1== #{@note.new_record? ? "СОЗДАНИЕ" : "ИЗМЕНЕНИЕ"} НОВОСТИ
+
+- form_for @note do |f|
+  = f.text_area :title,:rows => 5, :cols => 30, :label => "Текст новости (250 символов)"  
+  %span#count_title
+  = f.date_select :date, :label => "Отредактировать дату новости"
+  = f.select :event_id, Event.recent.limit(10).map {|e| [e.title, e.id]}, :include_blank => true, :label => "Выберите событие к которому привязана новость"
+  = f.text_field :url, :label => "Линк к новости"
+  = f.check_box :in_new, :label => "открывать ссылку в новом окне?"
+  = f.submit "Сохранить новость"

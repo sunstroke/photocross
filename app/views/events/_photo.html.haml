@@ -1,0 +1,9 @@
+%div{ :id=>"photo"}
+  -# .photo_title
+    = photo.user.login
+  = link_to image_tag(photo.image.url(:thumb), :alt =>"Автор #{photo.user.login}"), photo.image.url(:large), :class => "group", :rel=> "#{ @event.photo_categories.name}"
+  - if current_user && current_user.is_admin?
+    - form_for photo do |f|
+      = f.select :photo_category_id, @event.photo_categories.map {|c| [c.name, c.id]}
+      = f.submit "Move"
+    = button_to "Удалить", photo, :method => :delete

@@ -1,0 +1,42 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  event_id: 1
+  number: 1
+  title: Task 1
+  required: false
+
+two:
+  id: 2
+  event_id: 1
+  number: 2
+  title: Task 2
+  required: false
+
+three_1:
+  id: 3
+  event_id: 1
+  number: 3
+  title: Task 3, 1
+  required: false
+  variable: true
+  variant: 1
+  
+three_2:
+  id: 4
+  event_id: 1
+  number: 3
+  title: Task 3, 2
+  required: false
+  variable: true
+  variant: 2
+
+four:
+  id: 5
+  event_id: 1
+  number: 4
+  title: Task 4
+  required: false
+
+    

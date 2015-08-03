@@ -1,0 +1,185 @@
+= javascript (:fckeditor)
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+    &nbsp;
+    %br
+
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r  
+        #inf
+          - form_for @event, :html => {:multipart => true} do |e|
+            #event_title
+              = e.text_field :title, :label => "Название события"
+              = e.text_field :name, :label => "короткий адрес"
+            #date{:style=>"width: 300px; height: 50px; padding: 0;"}
+              -# = event_date(@event)
+              старт
+              = e.date_select :handled_at
+              %br
+              финиш
+              = e.date_select :finishing_at
+              
+            %br        
+            #tabs
+              = link_to_unless_current 'Краткая ИНФОРМАЦИЯ' , edit_admin_event_path(@event, :tab => "event_resume")
+              |  
+              = link_to_unless_current 'Полная ИНФОРМАЦИЯ' , edit_admin_event_path(@event, :tab => "event_info")
+              |
+              = link_to_unless_current 'ГАЛЕРЕЯ',  gallery_admin_event_path(@event)
+              |  
+              = link_to_unless_current 'РЕПОРТАЖ ('+@event.photos_count(@event).to_s+")" , edit_admin_event_path(@event, :tab => "event_photos")              
+              |  
+              = link_to_unless_current 'УЧАСТНИКИ ('+@event.teams.count.to_s+")" , admin_event_teams_path(@event)
+            #path
+              = link_to "ФОТОКРОСС", root_path
+              = '->'
+              = link_to_unless_current "СОБЫТИЯ", admin_events_path
+              = '->'
+              = h @event.title
+              -# = event_date(@event)
+            -# notes
+              = render :partial => "notes"
+            #event_body
+              = render :partial => "events/user_photos"
+              = image_tag(@event.image.url(:medium)) if @event.image?
+              = e.file_field :image, :label => "Картинка события"
+              %br
+              -#= cktext_area( :event, :body, :ckeditor=>{:toolbar => "Simple", :width => "90%", :height => "400px"}) 
+              = e.text_area :body, :rows => 15, :cols => 80, :label => "Описание"
+              %p{:style=>"clear: both;"}
+                ключевые слова
+              = e.text_field :keywords
+              %br
+              = e.text_field :description, :label => "мета-описание"
+              = image_tag(@event.image.url(:medium)) if @event.image? 
+              = e.file_field :image, :label => "Картинка события"
+              %br
+              -#= cktext_area( :event, :resume, :ckeditor=>{:toolbar => "Simple", :width => "90%", :height => "400px"}) 
+              = e.text_area :resume, :rows => 15, :cols => 80, :label => "Резюме"
+              %p{:style=>"clear: both;"}
+                ключевые слова
+              = e.text_field :keywords
+              %br
+              = e.text_field :description, :label => "мета-описание"
+            #event_game
+              - if flash[:notice]
+                = flash[:notice]
+              Регистрация открыта?
+              %br
+              = e.radio_button :is_registration_opened, "true"
+              да
+              = e.radio_button :is_registration_opened, "false"
+              нет
+              %hr
+              #start.box
+                Место старта
+                %ul
+                  - @event.starts.each do |start|
+                    %li{:url => start_path(start), :object => "start"}
+                      .rest_in_place{:attribute => "name"}= start.name
+                      .rest_in_place{:attribute => "description"}= start.description                      
+                      .rest_in_place{:attribute => "image"}= start.image                                            
+                      = link_to "Удалить", start, :method => :delete
+                  %li
+                    - e.fields_for :start_attributes do |start_form|
+                      = start_form.text_field :name, :label => "адрес"
+                      = start_form.text_field :description, :label => "описание" 
+                      = start_form.file_field :image, :label => "Картинка"                      
+                      -# = start_form.submit
+                %hr
+              #finish.box
+                Финиш
+                %ul
+                  - @event.finishes.each do |finish|
+                    %li
+                      = finish.name if finish.name
+                      = link_to "Удалить", finish, :method => :delete
+                  %li
+                    - e.fields_for :finish_attributes do |finish_form|
+                      = finish_form.text_field :name, :label => "адрес"
+                      = finish_form.text_field :description, :label => "описание" 
+                      = finish_form.file_field :image, :label => "Картинка"
+                      -# = start_form.submit                
+                %hr
+              #prize.box
+                Призы
+                %ul
+                  - @event.prizes.each do |prize|
+                    %li
+                      = prize.name if prize.name
+                      = link_to "Удалить", prize, :method => :delete
+                  %li
+                    - e.fields_for :prize_attributes do |prize_form|
+                      = prize_form.text_field :name, :label => "название"
+                      = prize_form.text_field :description, :label => "описание" 
+                      = prize_form.file_field :image, :label => "Картинка"                
+                %hr
+              #press_release.box
+                Пресс-Релиз
+                %ul
+                  - @event.pressrelises.each do |pressrelise|
+                    %li
+                      = pressrelise.name if pressrelise.name
+                      = link_to "Удалить", pressrelise, :method => :delete
+                  %li
+                    - e.fields_for :pressrelise_attributes do |pressrelise_form|
+                      = pressrelise_form.text_field :name, :label => "название"
+                      = pressrelise_form.text_field :description, :label => "описание" 
+                      = pressrelise_form.file_field :image, :label => "файл релиза"                
+                %hr
+              #partners.box
+                Партнеры
+                %ul
+                  - @event.partners.each do |p|
+                    %li
+                      = p.name if p.name
+                      -#= link_to "Удалить", @event.partners.delete(p), :method => :delete
+                  %li
+                    -# e.fields_for :partner_attributes do |partner_form|
+                    = collection_select :event, :partner_ids, Partner.all, :id, :name,{}, {:multiple => true}
+                  %li=link_to "добавить партнера", new_partner_path  
+                %hr
+              #about_event_writes.box
+                О нас пишут
+                %ul
+                  - @event.smis.each do |smi|
+                    %li
+                      = smi.name if smi.name
+                      = text_field(smi, :link)
+                      = link_to "Удалить", smi, :method => :delete
+                  %li
+                    - e.fields_for :smi_attributes do |smi_form|
+                      = collection_select :event, :smi_ids, Smi.all, :id, :name,{}, {:multiple => true}
+                      -# = smi_form.text_field :name, :label => "линк"
+                        = smi_form.text_field :description, :label => "подпись" 
+                        = smi_form.file_field :image, :label => "картинка"
+                %hr
+            #event_else_info
+              %hr
+              Теги:
+              %span.tag
+                = e.text_field :tag_list, :label => "Список тегов через запятую, для быстрой навигации, ни на что не влияют, служат только для того, чтобы выбирать события по тегу"
+                -# Tag.limit(10).each do |tag|
+                  = link_to tag.name, '#event_else_info', :onclick => "$('#event_tag_list').html('тупняк')"
+              %br
+              %hr
+              = e.check_box :comment_allowed, :label => "Комментируем?"
+            = e.submit "Сохранить изменения"   
+          %h3
+            Категории пользовательских фоток
+          %ul
+            - @event.photo_categories.each do |category|
+              %li
+                .rest_in_place{:attribute => "name", :url => photo_category_path(category), :object => "photo_category"}= category.name
+                = button_to "Удалить", category, :method => :delete
+            %li
+              - form_for PhotoCategory.new(:event => @event) do |f|
+                = f.hidden_field :event_id
+                = f.text_field :name, :label => "Название"
+                = f.submit "Создать категорию"
+    #br
+      #bl

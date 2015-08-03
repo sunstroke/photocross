@@ -1,0 +1,71 @@
+- content_for :js do
+  = stylesheet_link_tag "uploadify"
+  = javascript_include_tag "swfobject", "jquery.uploadify.v2.1.4.min"
+%table{ :border => "1", :style => "width: 80%;" }
+  %caption
+    %h2== РЕДАКТИРОВАТЬ ГАЛЕРЕЮ #{@event.title}
+  %thead
+    %tr
+      %colgroup{ :style => "background-color:#c6f4fb", :width => "6%" }
+        %td{:style => "background-color: white"} Название/номер задания
+      - @event.tasks_with_numbers.each do |task|
+        %td{:style => "background-color: #ffb76f"}
+          .task_number= link_to task.number,event_task_path(@event, task.number)
+          .task_title{:style => "display: none"}= task.title
+  %tbody
+    - @event.teams.each do |team|
+      %tr
+        %td
+          .team_number= link_to team.number, edit_admin_event_team_path(@event, team)
+          .team_title{:style => "display: none"}= link_to team.title, edit_admin_event_team_path(@event, team)
+        - @event.tasks_with_numbers.each do |task|
+          %td{:id => "photo_block_#{team.id}_#{task.number}"}
+            - photo = team.photo_for_task(task)
+            - if photo
+              = render :partial => "photo", :object => photo
+              
+= render :partial => "upload"            
+
+#csv-upload-block
+  - form_for @event, :html => {:multipart => true} do |e|
+    = e.file_field :upload_csv, :label => "CSV с результатами"
+    = e.submit "Залить"
+  
+#control-block
+  %a{:onclick => "$('.team_title, .team_number').toggle(); return false;"} Показать/скрыть номера и названия команд
+  %a{:onclick => "$('.task_title, .task_number').toggle(); return false;"} Показать/скрыть номера и названия заданий
+- form_for @task do |f|
+  = error_messages_for :task
+  %table
+    %caption Задачи
+    %thead
+      %tr
+        %td Номер
+        %td Название
+        %td Вариативная часть названия
+        %td Обязательная
+        %td Вариативная
+        %td Номер варианта
+        %td Удалить
+    %tbody
+      - @event.tasks.numbered.each do |task|
+        %tr{:url => task_path(task), :object => "task"}
+          %td.rest_in_place{:attribute => "number"}= task.number
+          %td.rest_in_place{:attribute => "title"}= h task.title
+          %td.rest_in_place{:attribute => "variable_title"}= h task.variable_title
+          %td= (task.required? ? 'да' : 'нет')
+          %td= (task.variable? ? 'да' : 'нет')
+          %td.rest_in_place{:attribute => "variant"}= task.variant
+          %td= link_to "Удалить", task, :method => :delete
+      %tr
+        %td
+          = f.text_field :number
+          = f.hidden_field :event_id
+        %td= f.text_field :title
+        %td= f.text_field :variable_title
+        %td= f.check_box :required
+        %td= f.check_box :variable
+        %td
+          = f.text_field :variant
+          = submit_tag "Создать"
+  

@@ -1,0 +1,101 @@
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+    &nbsp;
+    %br
+    %br
+    %br       
+
+
+
+#content.container
+  #b
+    #t
+      #tl
+    #l
+      #r  
+        #inf
+          #event_title
+            %H1
+              = link_to @event.title, @event
+          #date
+            = event_date(@event)
+          %br        
+          #tabs
+            = link_to_unless_current 'ИНФОРМАЦИЯ' ,event_path(@event, :tab => "event_info")
+            |  
+            = link_to_unless_current 'ГАЛЕРЕЯ',  event_teams_path(@event)
+            |  
+            = link_to_unless_current 'РЕПОРТАЖ ('+@event.photos_count(@event).to_s+")" , event_path(@event, :tab => "event_photos")              
+            |  
+            = link_to_unless_current 'УЧАСТНИКИ ('+@event.teams.count.to_s+")" , event_path(@event, :tab => "teams")
+          #path
+            = link_to "ФОТОКРОСС", root_path
+            = '->'
+            = link_to_unless_current "СОБЫТИЯ", events_path
+            = '->'
+            = h @event.title
+            -# = event_date(@event)
+          -# notes
+            = render :partial => "notes"
+          #event_body
+            - if params[:tab] == "teams"
+              = render :partial => "teams/teams"
+            - elsif params[:tab] == "event_photos"
+              = render :partial => "events/user_photos"
+            - else  
+              = image_tag(@event.image.url(:medium)) if @event.image?
+              %p= simple_format @event.body
+          #event_game
+            - if flash[:notice]
+              = flash[:notice]
+            - if @team
+              = link_to "Мое участие", :controller => "teams", :action => "profile", :id => @team.id
+            - elsif @event.is_registration_opened?
+              #my_event
+                - if current_user
+                  = link_to "ХОЧУ В ЭТОМ УЧАСТВОВАТЬ!", new_event_team_path(@event)
+                -# else
+                  = link_to "Зарегистрироваться для участия", new_user_path
+                  - form_for :user_session, :url => session_path, :method => :post do |f|
+                    Войти:
+                    %br
+                    = f.text_field :login
+                    %br
+                    = f.password_field :password
+                    %br
+                    = f.submit t("user.login")
+            %hr
+            #start.box
+              Старт
+              %hr
+            #finish.box
+              Финиш
+              %hr
+            #prize.box
+              Призы
+              %hr
+            #press_release.box
+              Пресс-Релиз
+              %hr
+            #partners.box
+              Партнеры
+              %hr
+            #about_event_writes.box
+              О нас пишут
+              %hr
+          #event_else_info
+            %hr
+            Теги:
+            %span.tag
+              = @event.tag_list.map {|tag| link_to tag, events_path(:tag => tag) }.join(", ")
+            %hr
+            - if @event.comment_allowed?
+              #comments
+                = will_paginate @comments
+                = "Обсуждение ("+@event.comments.count.to_s+" комментариев): "
+                = render :partial => "comments/form"
+                = render :partial => "comments/comment", :collection => @comments
+                = render :partial => "comments/form"
+                = will_paginate @comments
+    #br
+      #bl

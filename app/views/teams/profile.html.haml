@@ -1,0 +1,78 @@
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r
+        #inf
+          = render :partial =>"events/infotabs", :locals=>{:event=>@event}        
+          - if flash[:notice]
+            #error= flash[:notice]        
+          %table{ :border => "0", :width => "100%" }
+            %tbody
+              = render :partial => "teams/header"
+
+              - if @team.captain == current_user ||current_user.is_admin?
+                %tr
+                  %td
+                    - if @team.captain == current_user
+                      #edit_name
+                        %h2 Редактирование команды
+                        - form_for @team do |f|
+                          = f.text_field :title, :label => "Название"
+                          = f.submit "Сохранить"                  
+                    -# = render :partial => 'activate'
+                %tr
+                  %td
+                    Добавление пользователей в команду
+                    - form_for @team_user do |f|
+                      = error_messages_for :team_user
+                      = f.hidden_field :team_id
+                      = f.text_field :login, :label => "Имя зарегистрированного на сайте пользователя"
+                      = f.submit "Добавить"
+                  %td
+                    - if @team.captain == current_user
+                      - @team.team_users.all(:include => :user).each do |team_user|
+                        %div
+                          = link_to team_user.user.login, team_user.user
+                          %br
+                          = team_user.accepted? ? "участвует" : team_user.accepted.nil? ? "ещё не подтвердил" : "отказался"
+                    - else
+                      - @team.team_users.accepted.all(:include => :user).each do |team_user|
+                        %div= link_to team_user.user.login, team_user.user
+                %tr
+                  %td
+                    - if current_user && current_user.is_admin?
+                      - form_for(@photo, :html => {:multipart => true}) do |f|
+                        = f.error_messages
+                        = f.file_field :image, :label => "Фото"
+                        = f.hidden_field :team_id 
+                        = f.hidden_field :event_id
+                        = f.select :task_id, @event.tasks.map {|t| ["#{t.number } #{t.title}", t.id]}, :label => "Задание"
+                        = f.submit "Загрузить"
+                      -#= render :partial => 'upload'
+              %tr
+                %td{ :height => "236", :valign => "middle", :align => "center", :width => "76%" }
+                  %table{ :border => "1", :width => "30%" }
+                    %tbody
+                      - @team.photos.in_groups_of(3, false) do |group|
+                        %tr
+                          - group.each do |photo|
+                            %td
+                              = link_to image_tag(photo.image.url(:thumb)), photo
+                              %br
+                              =link_to photo.task.title,event_task_path(@event, photo.task) 
+                              == , #{photo.mark}
+                %td{ :valign => "top", :align => "left", :width => "24%" }
+                  Команды:
+                  %ul
+                    - @event.teams.each do |team|
+                      %li= link_to_unless_current h(team.number.to_s+" "+team.title), team
+    #br
+      #bl
+      - content_for :news do
+        %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+          &nbsp;
+          %br
+          %br
+          %br       

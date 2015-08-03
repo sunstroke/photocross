@@ -1,0 +1,24 @@
+<h1>Listing pressrelises</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Event</th>
+    <th>Description</th>
+  </tr>
+
+<% @pressrelises.each do |pressrelise| %>
+  <tr>
+    <td><%=h pressrelise.name %></td>
+    <td><%=h pressrelise.event_id %></td>
+    <td><%=h pressrelise.description %></td>
+    <td><%= link_to 'Show', pressrelise %></td>
+    <td><%= link_to 'Edit', edit_pressrelise_path(pressrelise) %></td>
+    <td><%= link_to 'Destroy', pressrelise, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New pressrelise', new_pressrelise_path %>

@@ -1,0 +1,6 @@
+.comment
+  = link_to comment.user.login, comment.user
+  = comment.created_at.to_s(:short)
+  = button_to "Удалить", comment_path(comment), :method => :delete if current_user && current_user.is_admin?
+  = simple_format comment.body
+  

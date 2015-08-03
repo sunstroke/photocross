@@ -1,0 +1,43 @@
+%div.container{ :valign => "top"}
+  - @events.each do |event|
+  
+    #content
+      #b
+        #t
+          #tl
+        #l
+          #r
+            #inf
+              #event_title
+                %H1
+                  = link_to event.title, event
+              #date
+                = event_date(event)
+              %br          
+              = render :partial =>"events/infotabs", :locals=>{:event=>event}
+              #event_info{:id => event.id, :style=>" display:inline-block; width: 100%;"}
+                = render :partial =>"events/body", :locals => {:event => event}
+                %span.tag{:style=>"clear:both;"}
+                  Теги:
+                  = raw(event.tag_list.map {|tag| link_to tag, events_path(:tag => tag) }.join(", "))
+              #manage{:style=>"float: right;"}
+                - if current_user && current_user.is_admin?
+                  = link_to "Редактировать", edit_admin_event_path(event)
+                = link_to "Комментариев "+event.comments.count.to_s, event_path(event)+"#comments"
+                
+        #br
+          #bl
+      %br  
+  = will_paginate @events 
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "187px", :valign => "top" }
+    &nbsp;
+    %br
+    %br
+    %br       
+    #tags
+      - if @tags
+        - tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class|
+          = link_to tag.name, { :action => :index, :tag => tag.name }, :class => css_class
+      -# Tag.all.each do |tag|
+        = link_to tag.name, events_path(:tag => tag.name)

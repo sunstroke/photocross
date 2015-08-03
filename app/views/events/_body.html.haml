@@ -1,0 +1,4 @@
+%span{:style =>"margin-left: 20px; margin-top:10px;"}
+  = link_to image_tag(event.image.url(:medium),:style => "float : right; margin: 5px 0px 5px 10px; display: inline;"), event if event.image?
+  -#= event_date(event)
+  = simple_format(raw(event.resume))

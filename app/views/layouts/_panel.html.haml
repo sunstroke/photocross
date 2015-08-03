@@ -1,0 +1,21 @@
+.navbar-inner
+  .container
+    %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.brand{:href => "#{root_path}"}
+      %strong ФОТОКРОСС
+    .nav-collapse.collapse
+      %ul.nav.pull-right
+        %li= link_to "СОБЫТИЯ", events_path , :class => current_page?(events_path) ? "active" : ""
+        %li= link_to "УЧАСТНИКИ", events_path , :class => current_page?(events_path) ? "active" : ""
+        %li= link_to "ФОТОГРАФИИ", gallery_path , :class => current_page?(gallery_path) ? "active" : ""
+        %li= link_to "ОРГАНИЗАТОРЫ", page_path("contacts") , :class => current_page?(page_path("contacts")) ? "active" : ""              
+        %li= link_to "ПАРНЕРЫ", page_path("partners") , :class => current_page?(page_path("partners")) ? "active" : ""              
+        - if current_user
+          %li= link_to current_user.login, edit_user_path(current_user.id)
+          %li= link_to "Выход", :logout
+        - else
+          %li= link_to "Регистрация", new_user_path
+          %li=link_to "Вход", :login

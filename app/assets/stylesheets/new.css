@@ -1,0 +1,31 @@
+.fieldWithErrors input { border: 1px red solid};
+
+.rest_in_place { background: #C0D9AF;}
+
+.swfupload {
+  position:absolute;
+  z-index:1;
+}
+
+.photo_category .photo {
+  width: 120px;
+  height: 120px;
+  float: left;
+}
+
+.photo_category {
+  clear: both;
+}
+
+#left {
+	color:#FFFFFF;
+	font-family:Arial;
+	font-size:16px;
+	font-style:normal;
+	font-weight:bold;
+	line-height:normal;
+	text-decoration:none
+}
+#left a {
+	color:#FFFFFF;
+}

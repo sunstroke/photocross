@@ -1,0 +1,89 @@
+%p= link_to "Вернуться к списку", admin_events_path
+
+%h1== событие «#{@event.title}»
+
+=link_to "Редактировать список команд", admin_event_teams_path(@event)
+%br
+=link_to "Галерея", gallery_admin_event_path(@event)
+
+- form_for @event, :html => {:multipart => true} do |e|
+  %table{:border => "1", :width => "90%"}
+    %tbody
+      %tr
+        %td
+          = e.text_field :title, :label => "Название события"
+          %br
+          = e.check_box :comment_allowed, :label => "Комментируем?"
+          %br
+          = e.check_box :is_registration_opened, :label => "Регистрируемся?"
+      %tr
+        %td
+          = e.date_select :handled_at, :label => "Дата проведения"
+          = e.date_select :finishing_at, :label => "Дата финала"
+      %tr
+        %td= e.text_area :resume, :rows => 40, :cols => 80, :label => "Резюме"
+      %tr
+        %td= e.text_area :body, :rows => 40, :cols => 80, :label => "Описание"
+      %tr
+        %td
+          = image_tag(@event.image.url(:thumb)) if @event.image?
+          = e.file_field :image, :label => "Картинка события"
+      %tr
+        %td= e.file_field :upload_csv, :label => "CSV с результатами"
+      %tr
+        %td
+          = e.text_field :tag_list, :label => "Список тегов через запятую"
+          - Tag.all(:limit => 10).each do |tag|
+            = link_to tag.name, '#', :onclick => "$('#event_tag_list').html('тупняк')"
+          = e.text_field :keywords, :label => "ключевые слова"
+          = e.text_field :description, :label => "мета-описание"
+      %tr
+        %td= e.submit "Сохранить"
+
+%h3 Категории пользовательских фоток
+%ul
+  - @event.photo_categories.each do |category|
+    %li
+      .rest_in_place{:attribute => "name", :url => photo_category_path(category), :object => "photo_category"}= category.name
+      = button_to "Удалить", category, :method => :delete
+  %li
+    - form_for PhotoCategory.new(:event => @event) do |f|
+      = f.hidden_field :event_id
+      = f.text_field :name, :label => "Название"
+      = f.submit "Создать категорию"
+      
+- form_for @task do |f|
+  = error_messages_for :task
+  %table
+    %caption Задачи
+    %thead
+      %tr
+        %td Номер
+        %td Название
+        %td Вариативная часть названия
+        %td Обязательная
+        %td Вариативная
+        %td Номер варианта
+        %td Удалить
+    %tbody
+      - @event.tasks.numbered.each do |task|
+        %tr{:url => task_path(task), :object => "task"}
+          %td.rest_in_place{:attribute => "number"}= task.number
+          %td.rest_in_place{:attribute => "title"}= h task.title
+          %td.rest_in_place{:attribute => "variable_title"}= h task.variable_title
+          %td= (task.required? ? 'да' : 'нет')
+          %td= (task.variable? ? 'да' : 'нет')
+          %td.rest_in_place{:attribute => "variant"}= task.variant
+          %td= link_to "Удалить", task, :method => :delete
+      %tr
+        %td
+          = f.text_field :number
+          = f.hidden_field :event_id
+        %td= f.text_field :title
+        %td= f.text_field :variable_title
+        %td= f.check_box :required
+        %td= f.check_box :variable
+        %td
+          = f.text_field :variant
+          = submit_tag "Создать"
+       

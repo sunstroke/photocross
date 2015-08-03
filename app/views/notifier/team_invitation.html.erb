@@ -1,0 +1,7 @@
+Здравствуйте, <%= @user.login %>
+
+Вас приглашают в команду «<%= @team_user.team.title%>» на событие «<%= @team_user.event.title%>».
+
+Подтвердить участие: <%= accept_team_user_url(@team_user.accept_key)%>
+Отказаться от участия: <%= reject_team_user_url(@team_user.accept_key)%>
+

@@ -1,0 +1,8 @@
+ru:
+  site:
+    title: "ФОТОКРОСС"
+    
+  user:
+    login: "Войти"
+    logout: "Выйти"
+    signup: "Зарегистрироваться"

@@ -1,0 +1,9 @@
+#tabs
+  = link_to 'ИНФОРМАЦИЯ' ,event_path(event, :tab => "event_info")
+  |  
+  = link_to   'ГАЛЕРЕЯ',  event_teams_path(event)
+  |  
+  = link_to 'РЕПОРТАЖ ' , event_path(event, :tab => "event_photos")              
+  |  
+  = link_to 'УЧАСТНИКИ ('+event.teams.count.to_s+")" , event_path(event, :tab => "teams")
+

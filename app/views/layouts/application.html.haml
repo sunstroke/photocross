@@ -1,0 +1,8 @@
+= render :partial => "layouts/header"      
+%body.pull_top
+  .navbar.navbar-inverse.navbar-static-top
+    = render :partial => "layouts/panel"
+  =raw(yield)
+  %footer#footer
+    = render :partial => "layouts/footer"      
+  = javascript_include_tag  "http://code.jquery.com/jquery-latest.js", "application"

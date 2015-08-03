@@ -1,0 +1,24 @@
+<h1>Listing finishes</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Event</th>
+    <th>Description</th>
+  </tr>
+
+<% @finishes.each do |finish| %>
+  <tr>
+    <td><%=h finish.name %></td>
+    <td><%=h finish.event_id %></td>
+    <td><%=h finish.description %></td>
+    <td><%= link_to 'Show', finish %></td>
+    <td><%= link_to 'Edit', edit_finish_path(finish) %></td>
+    <td><%= link_to 'Destroy', finish, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New finish', new_finish_path %>

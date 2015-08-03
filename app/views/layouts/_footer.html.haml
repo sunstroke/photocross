@@ -1,0 +1,67 @@
+.container
+  .row.sections
+    .span4.recent_posts
+      %h3.footer_header
+        Последие статьи
+      .post
+        %a{:href => "#"}
+          %img.img-circle{:src => "img/recent_post1.png"}/
+        .date
+          Пн, 12 Дек
+        %a.title{:href => "#"}
+          Статья
+    .span4.testimonials
+      %h3.footer_header
+        О фотокроссе говорят
+      .wrapper
+        .quote
+          %span “
+          Шевели ногами, шевели мозгами
+          %span
+        .author
+          %img{:src => "/images/crosser.jpg"}/
+          .name Леша Ткачев
+          .info
+            Папа Фотокросса
+    .span4.contact
+      %h3.footer_header
+        Свяжитесь с нами
+      = form_for(Feedback.new) do |f|
+        -#%form{:action => "#", :method => "post"}
+        = f.text_field :name, :placeholder => "Ваше имя", :type=>"text"
+        = f.text_field :email, :placeholder => "Ваш email", :type=>"text"
+        = f.text_area :message, :placeholder => "Сообщение",:rows => "3"
+        %input{:type => "submit", :value => "Отправить"}/
+  .row.credits
+    .span12
+      .row.social
+        .span12
+          %a.facebook{:href => "#"}
+            %span.socialicons.ico1
+            %span.socialicons_h.ico1h
+          %a.twitter{:href => "#"}
+            %span.socialicons.ico2
+            %span.socialicons_h.ico2h
+          %a.gplus{:href => "#"}
+            %span.socialicons.ico3
+            %span.socialicons_h.ico3h
+          %a.flickr{:href => "#"}
+            %span.socialicons.ico4
+            %span.socialicons_h.ico4h
+          %a.pinterest{:href => "#"}
+            %span.socialicons.ico5
+            %span.socialicons_h.ico5h
+          %a.dribble{:href => "#"}
+            %span.socialicons.ico6
+            %span.socialicons_h.ico6h
+          %a.behance{:href => "#"}
+            %span.socialicons.ico7
+            %span.socialicons_h.ico7h
+      .row.copyright
+        .span12
+          Сервер: <a href=http://estudio.ru>VPS хостинг</a> eStudio.
+          <br>
+          (C) ООО "Игра Фотокросс", ИНН 7703594953 ОГРН 1067746653589, www.photocross.ru 
+          - if current_user && current_user.is_admin?
+            = link_to "admin", admin_path
+          = raw(@lf.return_links.to_s.force_encoding("UTF-8")) if !@lf.nil?

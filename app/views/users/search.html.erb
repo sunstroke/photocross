@@ -1,0 +1,16 @@
+<html> 
+  <head> 
+    <%=javascript_include_tag (:defaults) %> 
+  </head> 
+  <body> 
+    <h1>Search User</h1> 
+    <p> 
+      <% form_tag :action=>'search_result'%> 
+      <label for="user_login">Tag</label> 
+      <%= text_field_with_auto_complete :user, :user_login %> 
+    </p> 
+    <% submit_tag "Search" %> 
+      <% end %>
+    <br/> 
+  </body> 
+</html>

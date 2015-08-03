@@ -1,0 +1,11 @@
+%div{:id => "photo_#{photo.id}", :style => "clear: both; margin-bottom: 20px; height: 100px; width: 100px;"}
+  -if photo.image?
+    -photo.image.recreate_versions! 
+  - if photo.task
+    - if photo.task.variable?
+      = link_to image_tag(photo.image.url(:thumb), :alt =>photo.team.title+" "+photo.task.title+": "+photo.task.variable_title+",  #{photo.mark}", :class=>"lazy") , photo.image.url(:large), :class => "group", :rel=> "gallery"
+    - else
+      =link_to image_tag(photo.image.url(:thumb), :alt =>photo.team.title+" "+photo.task.title+", #{photo.mark}" , :class=>"lazy"), photo.image.url(:large), :class => "group", :rel=> "gallery"  
+  - if current_user && current_user.is_admin?
+    %br
+    = button_to "Удалить", photo_path(photo), :method => :delete

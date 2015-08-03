@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @prize.name %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%=h @prize.event_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @prize.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_prize_path(@prize) %> |
+<%= link_to 'Back', prizes_path %>

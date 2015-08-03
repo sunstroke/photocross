@@ -1,0 +1,18 @@
+%tr
+  %td{ :colspan => "2" }
+    #path
+      = link_to "ФОТОКРОСС", root_path
+      ○
+      = link_to "ГАЛЕРЕЯ", gallery_path
+      ○ 
+      - if @event.handled_at
+        == «#{link_to "#{@event.handled_at.year}", gallery_path(@event.handled_at.year)}»
+      ○ «
+      = link_to h(@event.title), event_teams_path(@event)
+      » ○
+      - if @team
+        == «#{h @team.title}»
+      - elsif @number
+        == ЗАДАНИЕ №#{@number}
+      - else
+        КОМАНДЫ

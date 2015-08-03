@@ -1,0 +1,69 @@
+<%= form_for(@banner) do |f| %>
+  <% if @banner.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@banner.errors.count, "error") %> prohibited this banner from being saved:</h2>
+
+      <ul>
+      <% @banner.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :position %><br />
+    <%= f.number_field :position %>
+  </div>
+  <div class="field">
+    <%= f.label :info %><br />
+    <%= f.text_area :info %>
+  </div>
+  <div class="field">
+    <%= f.label :link %><br />
+    <%= f.text_field :link %>
+  </div>  
+  <div class="field">
+    <%= f.label :pos %><br />
+    <%= f.number_field :pos %>
+  </div>
+  <div class="field">
+    <%= f.label :bg %><br />
+
+    <%= f.text_field :bg , :style=>"width:600px"%>
+    <br>
+    <script>
+      window.onload = function() {
+          var oTextbox = document.getElementById('banner_bg');
+          for (var i = 0; i < document.images.length; i++) {
+              var image = document.images[i];
+              if (image.className === "clickable" || image.className.indexOf("clickable ") >= 0 || image.className.indexOf(" clickable") >= 0) {
+                  image.onclick = function() {
+                      oTextbox.value = this.src;
+                      image.style.border='5px black solid';
+                  };
+              }
+          }
+      };
+    </script>
+    <img src="/images/backgrounds/mango.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/aqua.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/flower.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/baby-blue.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/black.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/color-splash.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/deep-green.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/indigo.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/mint.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/ocean.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/silver.jpg" width="200" class="clickable">
+    <img src="/images/backgrounds/water.jpg" width="200" class="clickable">
+  </div>
+  <div class="field">
+    <%= f.label :visible %><br />
+    <%= f.check_box :visible %>
+  </div>  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+%h1== Команда #{h @team.title} (Событие #{link_to @event.title, edit_admin_event_path(@event)}, номер #{@team.number})
+=link_to "Редактировать список команд", admin_event_teams_path(@event)
+
+- form_for @team, :url => admin_event_team_path(@event, @team), :method => :put do |f|
+  = render :partial => "form", :locals => {:f => f}
+
+Список:
+%ul
+  - if @team.captain
+    %li
+      Капитан:
+      = link_to @team.captain.login, @team.captain
+  - @team.team_users.all(:include => :user).reject {|team_user| team_user.user == @team.captain}.each do |team_user|
+    %li
+      = link_to team_user.user.login, team_user.user
+      = button_to "Исключить", team_user, :method => :delete
+      - form_for @team, :url => admin_event_team_path(@event, @team), :method => :put do |f|
+        = f.hidden_field :captain_id, :value => team_user.user_id
+        = f.submit "Сделать капитаном"
+  %li
+    - form_for TeamUser.new(:team => @team) do |f|
+      = f.hidden_field :team_id
+      = f.text_field :login, :label => "Логин пользователя, которого вы приглашаете"
+      = f.submit "Добавить участника"
+      

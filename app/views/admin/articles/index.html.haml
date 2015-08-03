@@ -1,0 +1,23 @@
+%h2 АДМИНИСТРИРОВАНИЕ СТАТЕЙ
+
+%table{ :border => "1", :style => "width: 100%" }
+  %tbody
+    %tr{ :bgcolor => "grey" }
+      %td{ :width => "40%" } название
+      %td{ :width => "10%" } дата
+      %td страница статьи
+      %td удалить
+    - @articles.each do |article|
+      %tr
+        %td= link_to article.title, edit_admin_article_path(article)
+        %td= article.date && article.date.to_s(:date)
+        %td= link_to "страница статьи", (article.permalink.blank? ? article : page_path(article.permalink))
+        %td= button_to "удалить", admin_article_path(article), :method => :delete, :confirm => "Действительно удалить?"
+    %tr
+      %td{:colspan => "4"}= will_paginate @articles
+%p= link_to "новая статья", new_admin_article_path
+%p
+  (здесь потом можно будет добавить
+  навигационных кнопок, для ускорения
+  поиска нужного события)
+%p

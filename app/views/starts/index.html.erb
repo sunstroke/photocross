@@ -1,0 +1,24 @@
+<h1>Listing starts</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Event</th>
+    <th>Description</th>
+  </tr>
+
+<% @starts.each do |start| %>
+  <tr>
+    <td><%=h start.name %></td>
+    <td><%=h start.event_id %></td>
+    <td><%=h start.description %></td>
+    <td><%= link_to 'Show', start %></td>
+    <td><%= link_to 'Edit', edit_start_path(start) %></td>
+    <td><%= link_to 'Destroy', start, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New start', new_start_path %>

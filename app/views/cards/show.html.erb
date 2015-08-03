@@ -1,0 +1,23 @@
+<p>
+  <b>Card num:</b>
+  <%=h @card.card_num %>
+</p>
+
+<p>
+  <b>Pin:</b>
+  <%=h @card.pin %>
+</p>
+
+<p>
+  <b>Team:</b>
+  <%=h @card.team_id %>
+</p>
+
+<p>
+  <b>Activated:</b>
+  <%=h @card.activated %>
+</p>
+
+
+<%= link_to 'Edit', edit_card_path(@card) %> |
+<%= link_to 'Back', cards_path %>

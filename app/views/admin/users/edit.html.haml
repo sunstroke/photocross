@@ -1,0 +1,8 @@
+= link_to "Список пользователей", admin_users_path
+= render :partial => "users/form", :locals => {:label => "Сохранить", :admin => true}
+
+
+%h3 Команды пользователя
+%ul
+  - @user.teams.each do |team|
+    %li= link_to "Событие «#{team.event.title}», команда #{team.title}", team

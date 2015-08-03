@@ -1,0 +1,21 @@
+- if current_user
+  -form_for EventPhoto.new(:event => @event), :html => {:multipart => true} do |f|
+    = f.select :photo_category_id, @event.photo_categories.map {|p| [p.name, p.id] }, :label => "Откуда фотка"
+    = f.file_field :image, :label => "Фото с события"
+    = f.submit "Залить"
+- else
+  %p Залогиньтесь что бы залить фотки с события
+%p
+  Большие фотографии можно скролить
+.photo_categories
+  - @event.photo_categories.each do |category|
+    .photo_category
+      %h3= category.name
+      - category.event_photos.limit(12).each do |photo|
+        #photo
+          = link_to image_tag(photo.image.url(:thumb), :alt =>"Автор #{photo.user.login}"), photo.image.url(:large),:class => "group", :rel=> "#{category.name}"
+          - if current_user && current_user.is_admin?
+            = button_to "Delete", event_photo_path(photo), :method => :delete
+      - if category.event_photos.count > 12
+        = link_to "смотреть остальные", event_user_photos_path(@event, category.name), :style => "display: block; clear: both"
+      = link_to "Загрузить много", event_user_photos_path(@event, category.name), :style => "display: block; clear: both"  

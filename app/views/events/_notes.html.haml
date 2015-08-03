@@ -1,0 +1,5 @@
+- @notes.each do |note|
+  %div{:style => "width: 167px; border-bottom-style:dotted; margin-bottom: 10px"}
+    %b{:style => "color: white; "}= note.date && Russian::strftime(note.date,"%d %B %Y")
+    %br
+    = raw(note_link(note))

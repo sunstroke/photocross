@@ -1,0 +1,16 @@
+#activate
+  %h2 Активация заявки
+  - if @team.card&&@team.card.activated
+    #notice Заявка активирована
+  - else
+    -form_tag activate_path, :method => "post" do
+      %p 
+        Номер билета
+        = text_field_tag :card_num, params[:card_num], :maxlength => 5, :size => 10
+      %p
+        ПИН часть1, ПИН часть2
+        %br
+        = text_field_tag :pin_one, params[:pin_one], :maxlength => 5,:size => 10
+        = text_field_tag :pin_two, params[:pin_two], :maxlength => 5,:size => 10
+        = hidden_field_tag :team_id, @team.id
+        = submit_tag "Активировать", :name=> nil

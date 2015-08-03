@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @smi.name %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%=h @smi.event_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @smi.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_smi_path(@smi) %> |
+<%= link_to 'Back', smis_path %>

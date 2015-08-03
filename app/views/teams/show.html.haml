@@ -1,0 +1,46 @@
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r
+        #inf
+          #event_title
+            %H1
+              = link_to @event.title, @event
+          #date
+            = event_date(@event)
+          %br
+          = render :partial =>"events/infotabs", :locals=>{:event=>@event}          
+          - if flash[:notice]
+            #error= flash[:notice]        
+
+          %table{ :border => "0", :width => "100%" }
+            %tbody
+              = render :partial => "teams/header"
+              %tr
+                %td{ :height => "236", :valign => "middle", :align => "center", :width => "76%" }
+                  - @team.photos.each do |photo|
+                    - photo.image.recreate_versions! if photo.image?                  
+                    %div{:id => "photo_#{photo.id}", :style => "float: left; width: 125px; height: 180px;margin-bottom: 20px"}
+                      = link_to image_tag(photo.image.url(:thumb), :alt=>photo.task.title,:style=>"margin: 10px 25px;"),  photo.image.url(:large), :class => "group", :rel=> "gallery"
+                      %br
+                      - if photo.task
+                        - if photo.task.variable?
+                          = link_to photo.task.title+": "+photo.task.variable_title,event_task_path(@event, photo.task.number) 
+                        - else
+                          =link_to photo.task.title,event_task_path(@event, photo.task.number) 
+                      == , #{photo.mark}
+                %td{ :valign => "top", :align => "left", :width => "24%" }
+                  %ul
+                    - @event.teams.each do |team|
+                      %li= link_to_unless_current h(team.number.to_s+" "+team.title), team
+    #br
+      #bl
+      - content_for :news do
+        %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+          &nbsp;
+          %br
+          %br
+          %br       
+      

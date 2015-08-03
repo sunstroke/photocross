@@ -1,0 +1,18 @@
+%h1== Новая команда (Событие #{@event.title}, номер #{@team.number})
+- unless flash[:notice].blank?
+  %p{:style => "color: green; font-size: 120%"}= flash[:notice]
+=link_to "Редактировать список команд", admin_event_teams_path(@event)
+
+- form_for @team, :url => admin_event_teams_path(@event), :method => :post do |f|
+  = render :partial => "form", :locals => {:f => f}
+
+  %p Если капитана нет на сайте, завести его здесь
+  - fields_for :captain do |u|
+    = error_messages_for :user
+    = u.text_field :login, :label => "Логин"
+    = u.text_field :email, :label => "Email"
+    %p
+      Пароль и подтверждение:
+      %br
+      = u.password_field :password
+      = u.password_field :password_confirmation

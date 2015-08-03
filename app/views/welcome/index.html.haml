@@ -1,0 +1,46 @@
+%section#feature_slider
+  -if @banners
+    -@banners.each do |banner|
+      %article.slide{:style => "background: url('#{banner.bg}') repeat;", :id=>"slide#{banner.position}"}
+        -banner.banner_imgs.each do |bi|
+          %a{:href=>"#{banner.link||'#'}"}
+            %img{:class=>"asset left#{bi.left} sp#{bi.sp} t#{bi.top} z#{bi.z}", :src=>"#{bi.img}"}
+        .info
+          %a{:href=>"#{banner.link||'#'}"}
+            =raw(banner.info)
+#showcase
+  .container
+    - if @events.count>0
+      .section_header
+        %h3 Последние события
+      .row.feature_wrapper
+        .features_op1_row
+          .span4.feature.first
+            .img_box
+              %a{:href => "#{@events[0]}"}
+                =image_tag(@events[0].image.url(:medium)) if @events[0].image?
+                %span.circle
+                  %span.plus +
+            .text
+              %h6= @events[0].title
+              = simple_format @events[0].resume
+          .span4.feature
+            - if !@events[1].nil?
+              .img_box
+                %a{:href => "#{@events[1]}"}
+                  =image_tag(@events[1].image.url(:medium)) if @events[1].image?
+                  %span.circle
+                    %span.plus +
+              .text
+                %h6= @events[1].title
+                = simple_format @events[1].resume
+          .span4.feature.last
+            - if !@events[2].nil?
+              .img_box
+                %a{:href => "#{@events[2]}"}
+                  =image_tag(@events[2].image.url(:medium)) if @events[2].image?
+                  %span.circle
+                    %span.plus +
+              .text
+                %h6= @events[2].title
+                = simple_format @events[2].resume

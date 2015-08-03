@@ -1,0 +1,10 @@
+= content_for :head do
+  = stylesheet_link_tag  "welcomes",controller_name , :media => "screen"
+= render :partial => "layouts/header"      
+%body.pull_top
+  .navbar.transparent.navbar-inverse.navbar-fixed-top
+    = render :partial => "layouts/panel"
+  =yield
+  %footer#footer
+    = render :partial => "layouts/footer"      
+  =javascript_include_tag  "http://code.jquery.com/jquery-latest.js", "application"

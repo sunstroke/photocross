@@ -1,0 +1,9 @@
+%photo
+	%thumbnail
+  	photo.image.url(:thumb)
+	%filename
+	  photo.image.url(:large)
+	%tooltip
+	%description
+  	Автор: 
+  	= photo.user.login

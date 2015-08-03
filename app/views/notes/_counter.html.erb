@@ -1,0 +1,20 @@
+<script type="text/javascript">  
+	$(document).ready(function () {
+    $('#note_title').NobleCount('#count_title',{
+    	max_chars: 250,
+    	on_negative: 'go_red',
+    	on_positive: 'go_green',
+    	block_negative: true
+		});
+	});
+</script>
+<style> 
+	.go_red {
+		color:red;
+		}
+		
+	.go_green {
+		color:green;
+		}
+
+</style>

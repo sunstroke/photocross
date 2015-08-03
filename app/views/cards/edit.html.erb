@@ -1,0 +1,28 @@
+<h1>Editing card</h1>
+
+<%= form_for(@card) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :card_num %><br />
+    <%= f.text_field :card_num %>
+  </p>
+  <p>
+    <%= f.label :pin %><br />
+    <%= f.text_field :pin %>
+  </p>
+  <p>
+    <%= f.label :team_id %><br />
+    <%= f.text_field :team_id %>
+  </p>
+  <p>
+    <%= f.label :activated %><br />
+    <%= f.check_box :activated %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @card %> |
+<%= link_to 'Back', cards_path %>

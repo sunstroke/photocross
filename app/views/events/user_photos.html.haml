@@ -1,0 +1,20 @@
+
+%h1=link_to @event.title, @event
+- if current_user  
+  - content_for :js do
+    = stylesheet_link_tag "uploadify"
+    = javascript_include_tag "swfobject", "jquery.uploadify.v2.1.4.min"
+  = render :partial => "upload" 
+%p
+  Большие фотографии можно скролить
+%ul
+
+  - @event.photo_categories.each do |category|
+    %li= link_to_unless_current "Фотки «#{category.name}»", event_user_photos_path(@event, category.name)
+
+#photo-list
+  -#= render :partial => "up"
+  = render :partial => "photo", :collection => @photo_category.event_photos
+  -#= render :partial => "down"
+
+

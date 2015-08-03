@@ -1,0 +1,35 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  login: aa
+  crypted_password: dfafdsa
+  password_salt: aa
+  persistence_token: ""
+  single_access_token: ""
+  perishable_token: ""
+two:
+  id: 2
+  login: bb
+  crypted_password: dfafdsa
+  password_salt: aa
+  persistence_token: ""
+  single_access_token: ""
+  perishable_token: ""
+three:
+  id: 3
+  login: cc
+  crypted_password: dfafdsa
+  password_salt: aa
+  persistence_token: ""
+  single_access_token: ""
+  perishable_token: ""
+four:
+  id: 4
+  login: dd
+  crypted_password: dfafdsa
+  password_salt: aa
+  persistence_token: ""
+  single_access_token: ""
+  perishable_token: ""
+  

@@ -1,0 +1,15 @@
+%table{ :border => "1", :width => "100%" }
+  %tbody
+    = render :partial => "teams/header"
+    %tr
+      %td{ :height => "236", :valign => "middle", :align => "center", :width => "76%" }
+        - @photos.each do |photo|
+          %div{:id => "photo_#{photo.id}", :style => "float: left; width: 125px; height: 180px;margin-bottom: 20px"}
+            - photo.image.recreate_versions! if photo.image?              
+            = link_to image_tag(photo.image.url(:thumb), :alt=>photo.team.title,:style=>"margin: 10px 25px;", :class=>"lazy"),  photo.image.url(:large), :class => "group", :rel=> "gallery"
+            %br
+            == #{link_to(photo.team.title, photo.team)}, #{': ' if photo.task.variable?}#{photo.task.variable_title}, #{photo.mark})
+      %td{ :valign => "top", :align => "left", :width => "24%" }
+        %ul
+          - @event.tasks_with_numbers.each do |task|
+            %li= link_to_unless_current "Задание «#{task.title}»", event_task_path(@event, task.number)

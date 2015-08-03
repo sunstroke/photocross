@@ -1,0 +1,18 @@
+%p= link_to "Список статей", admin_articles_path
+= javascript (:fckeditor)
+= form_for @article do |f|
+  -# form_for @article do |f|
+  -# = error_messages_for :article
+  = f.text_field :title, :label => "Название"
+  - if @article && @article.author
+    %p= "Автор: " + link_to(@article.author.login, @article.author)
+  = f.text_field :permalink, :label => "пермалинк -- быстрая ссылка, будет в виде photocross.ru/pages/[permalink]"
+  = f.text_field :keywords, :label => "ключевые слова,(мета-тег для поисковиков) 3-4 часто встречающихся слова"
+  = f.text_field :description, :label => "мета-описание, краткое описание для поисковиков"
+  = f.select :event_id, Event.recent.limit(10).map {|e| [e.title, e.id]}, :label => "Присоединить к событию (пока не работает)", :include_blank => true
+  = f.date_select :date, :label => "дата статьи"
+  = raw(f.text_area :resume,:rows => 20, :cols => 80, :label => "резюме (краткое описание, показывается в общем списке)" )
+  -#= cktext_area( :article, :body, :ckeditor=>{:toolbar => "Simple", :width => "90%", :height => "400px"}) 
+  =raw( f.text_area :body,:rows => 40, :cols => 80, :label => "текст (полный текст, показывается при просмотре самой статьи)" )
+  = f.text_field :tag_list, :label => "теги, для быстрой навигации. Если надо на главную напиши тег главная, если надо на самый верх главной страницы, напиши первая" 
+  = f.submit "Сохранить"

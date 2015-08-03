@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<photos>
+	
+	<config 
+		show_tooltip="true"
+		follow_mouse="false"
+		drag_vertical="false"
+		scroll_speed="8"
+		fullscreen_button="true"
+		folder="photos/"
+		css_file="flashmo_210_style.css"
+		tween_duration="0.6"
+		grid_auto_align="true"
+		grid_row="6"
+		grid_column="9"
+		horizontal_spacing="1"
+		vertical_spacing="1"
+		thumbnail_max_width="100"
+		thumbnail_max_height="100"
+		thumbnail_border_size="0"
+		thumbnail_border_color="0xFFFFFF"
+		photo_border_size="10"
+		photo_border_color="0xFFFFFF">
+	</config>
+  <%= render :partial => "xml_photo", :collection => @photo_category.event_photos %>
+	
+</photos>

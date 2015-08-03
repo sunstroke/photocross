@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  smi_id: 1
+  event_id: 1
+  link: MyString
+
+two:
+  smi_id: 1
+  event_id: 1
+  link: MyString

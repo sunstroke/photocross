@@ -1,0 +1,28 @@
+- content_for :news do
+  %td{ :background => "/right1.jpg",:style=>"background-repeat:no-repeat;", :bgcolor=>"#fe8917",:width => "30px", :valign => "top" }
+    &nbsp;
+    %br
+    %br
+    %br       
+    -# tags
+      - Tag.all.each do |tag|
+        = link_to tag.name, articles_path(:tag => tag.name)
+#content
+  #b
+    #t
+      #tl
+    #l
+      #r
+        #inf
+          -#text
+          %br
+          %h1= @article.title
+
+          -# .tags= @article.tag_list
+
+          .body= raw(@article.body)
+          %br
+      - if current_user && current_user.is_admin?    
+        = link_to "Редактировать", edit_admin_article_path(@article)
+    #br
+      #bl

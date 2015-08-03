@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @start.name %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%=h @start.event_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @start.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_start_path(@start) %> |
+<%= link_to 'Back', starts_path %>
